@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}</style>
+<title>myData</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: left-aligned editorial column; hero splits text and the kiwi mark; one green band carries the kiwi story; plain lists everywhere else. */
+/* Single light theme by choice: kiwi flesh green is the primary color, kiwi skin brown the secondary, seed-dark text, core-white ground. */
+:root {
+  color-scheme: light;
+  --bg: #FCFDF7;
+  --surface: #FFFFFF;
+  --band: #E3EFBF;
+  --fg: #2A2018;
+  --muted: #655646;
+  --line: #D6E0BD;
+  --kiwi: #A9CC4E;
+  --kiwi-deep: #4C7814;
+  --skin: #6B4F35;
+  --cream: #FBF7EC;
+  --display: 'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif;
+  --body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 24px; }
+a { color: var(--kiwi-deep); text-underline-offset: 3px; }
+a:hover { color: var(--fg); }
+a:focus-visible, .btn:focus-visible { outline: 3px solid var(--kiwi-deep); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(2.5rem, 6.4vw, 4.6rem); }
+h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); }
+h3 { font-size: 1.25rem; letter-spacing: -0.01em; }
+p { margin: 0; max-width: 62ch; }
+.label { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--kiwi-deep); }
+h2 { color: var(--skin); }
+
+/* header */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 20px; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; color: var(--fg); text-decoration: none; }
+.brand svg { width: 52px; height: 45px; display: block; overflow: visible; }
+.walker, .bobber { display: inline-block; }
+.bobber { transform-origin: 45% 90%; }
+.cap { display: inline-block; transform-origin: 50% 85%; }
+.nav { display: flex; gap: 22px; flex-wrap: wrap; font-weight: 500; font-size: 0.95rem; }
+.nav a { color: var(--fg); text-decoration: none; }
+.nav a:hover { text-decoration: underline; }
+
+/* bird drawing */
+.bird .wash { fill: var(--kiwi); }
+.bird .ink { fill: none; stroke: var(--fg); stroke-linecap: round; stroke-linejoin: round; }
+.bird .dot { fill: var(--fg); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 40px; align-items: center; padding-block: 48px 72px; }
+.hero-copy { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.hero-copy .lede { font-size: 1.2rem; color: var(--muted); }
+.status { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; border: 1.5px solid var(--fg); border-radius: 999px; padding: 6px 14px; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.status i { width: 9px; height: 9px; border-radius: 50%; background: var(--kiwi); border: 1.5px solid var(--fg); }
+.actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.btn { display: inline-block; background: var(--skin); color: var(--cream); font-weight: 600; text-decoration: none; padding: 12px 20px; border-radius: 10px; }
+.btn:hover { background: var(--kiwi-deep); color: var(--bg); }
+.hero-art { min-width: 0; }
+.hero-art svg { width: 100%; height: auto; max-width: 460px; display: block; margin-inline: auto; }
+
+/* sections */
+section { padding-block: 72px; }
+.head { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+.head p { color: var(--muted); font-size: 1.08rem; }
+
+.band { background: var(--skin); color: var(--cream); }
+.band h2 { color: var(--cream); }
+.band .label { color: var(--kiwi); }
+.hero-band { background: var(--band); }
+.status { background: var(--surface); }
+.foot-band { background: var(--band); }
+.story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.story-copy { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.traits { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; min-width: 0; }
+.traits li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; padding-block: 14px; border-top: 1.5px solid currentColor; }
+.traits li:last-child { border-bottom: 1.5px solid currentColor; }
+.traits b { font-family: var(--display); font-weight: 700; }
+
+.parts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.part { display: flex; flex-direction: column; gap: 10px; min-width: 0; padding-top: 18px; border-top: 5px solid var(--kiwi); }
+.part p { color: var(--muted); }
+
+.apps { margin: 0; padding: 0; list-style: none; border-top: 1.5px solid var(--line); }
+.apps li { display: grid; grid-template-columns: 11rem minmax(0, 1fr) 6.5rem; gap: 16px; align-items: baseline; padding-block: 14px; border-bottom: 1.5px solid var(--line); }
+.apps .name { font-family: var(--display); font-weight: 700; font-size: 1.15rem; }
+.apps .what { color: var(--muted); min-width: 0; }
+.tag { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; justify-self: end; padding: 3px 9px; border-radius: 999px; border: 1.5px solid var(--line); color: var(--muted); white-space: nowrap; }
+.tag.first { background: var(--kiwi); border-color: var(--fg); color: #23281F; }
+
+.limits { background: var(--surface); border: 1.5px solid var(--line); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 16px; }
+.limits ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 10px; max-width: 70ch; }
+
+.road { margin: 0; padding: 0; list-style: none; counter-reset: step; display: grid; gap: 0; border-top: 1.5px solid var(--line); }
+.road li { counter-increment: step; display: grid; grid-template-columns: 2.6rem minmax(0, 1fr) 6.5rem; gap: 16px; align-items: baseline; padding-block: 16px; border-bottom: 1.5px solid var(--line); }
+.road li::before { content: counter(step); font-family: var(--mono); font-size: 0.9rem; color: var(--muted); }
+.road .step { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.road .step span { color: var(--muted); font-size: 0.95rem; }
+
+footer { border-top: 1.5px solid var(--line); padding-block: 32px 48px; color: var(--muted); font-size: 0.92rem; display: flex; flex-direction: column; gap: 8px; }
+
+@media (max-width: 760px) {
+  .hero, .story { grid-template-columns: minmax(0, 1fr); }
+  .hero { padding-block: 24px 48px; }
+  .hero-art { order: -1; }
+  .hero-art svg { max-width: 300px; }
+  .parts { grid-template-columns: minmax(0, 1fr); }
+  .apps li { grid-template-columns: minmax(0, 1fr) auto; }
+  .apps .what { grid-column: 1 / -1; order: 3; }
+  .road li { grid-template-columns: 1.8rem minmax(0, 1fr); }
+  .road .tag { grid-column: 2; justify-self: start; }
+  section { padding-block: 52px; }
+}
+
+/* pull to refresh: a round badge with the kiwi drops from the top edge, turns as you pull, spins, then the page reloads */
+html, body { overscroll-behavior-y: contain; }
+.ptr { position: fixed; left: 50%; top: calc(env(safe-area-inset-top, 0px) - 64px); width: 56px; height: 56px; margin-left: -28px; border-radius: 50%; box-shadow: 0 6px 18px rgba(42, 32, 24, 0.22); display: grid; place-items: center; z-index: 50; opacity: 0; pointer-events: none; will-change: transform; }
+.ptr svg { width: 60px; height: 60px; display: block; }
+.ptr .core { fill: var(--surface); }
+</style>
+</head>
+<body>
+
+<div class="ptr" id="ptr" aria-hidden="true">
+  <svg class="bird" viewBox="30 30 180 180">
+    <path class="wash" d="M40 120 C38 74 76 38 122 40 C168 42 202 78 200 122 C198 168 162 202 118 200 C74 198 42 164 40 120 Z"></path>
+    <path class="core" d="M106 120 C104 106 112 96 121 97 C131 98 137 108 135 121 C133 134 126 143 119 142 C111 141 107 132 106 120 Z"></path>
+    <g class="ink" stroke-width="8">
+      <path d="M40 120 C38 74 76 38 122 40 C168 42 202 78 200 122 C198 168 162 202 118 200 C74 198 42 164 40 120 Z"></path>
+    </g>
+    <g class="ink" stroke-width="4">
+      <path d="M56 121 C55 84 85 55 121 56 C158 57 185 86 184 121 C183 157 155 185 120 184 C84 183 57 157 56 121 Z"></path>
+      <path d="M106 120 C104 106 112 96 121 97 C131 98 137 108 135 121 C133 134 126 143 119 142 C111 141 107 132 106 120 Z"></path>
+    </g>
+    <g class="ink" stroke-width="7">
+      <path d="M120 80 L121 72"></path>
+      <path d="M143 88 L148 81"></path>
+      <path d="M158 108 L166 105"></path>
+      <path d="M158 132 L165 136"></path>
+      <path d="M144 152 L148 159"></path>
+      <path d="M120 160 L119 168"></path>
+      <path d="M96 152 L92 159"></path>
+      <path d="M82 133 L74 135"></path>
+      <path d="M82 108 L75 104"></path>
+      <path d="M97 88 L92 81"></path>
+    </g>
+  </svg>
+</div>
+
+<div class="hero-band">
+<header class="wrap top">
+  <a class="brand" href="#top" id="top" aria-label="myData">
+    <span class="walker" id="brand-walker" aria-hidden="true"><span class="bobber" id="brand-bobber"><svg class="bird" viewBox="30 40 210 180">
+      <path class="wash" d="M50 136 C46 96 82 72 122 76 C160 80 180 110 172 142 C164 174 122 190 88 182 C66 176 52 160 50 136 Z"></path>
+      <g id="k-leg1" class="ink" stroke-width="8"><path d="M104 170 L104 206 L121 206"></path></g>
+      <g id="k-leg2" class="ink" stroke-width="8"><path d="M132 168 L133 206 L150 205"></path></g>
+      <g class="ink" stroke-width="8">
+        <path d="M60 128 C58 94 88 76 120 78 C140 80 150 85 158 78"></path>
+        <path d="M180 98 C179 131 160 164 124 172 C92 178 62 160 60 128"></path>
+      </g>
+      <g id="k-head">
+        <g class="ink" stroke-width="8">
+          <path d="M158 78 C162 62 184 57 192 73"></path>
+          <path d="M191 78 C205 95 214 118 219 147 C205 127 194 112 180 98"></path>
+        </g>
+        <circle class="dot" cx="179" cy="76" r="4.5"></circle>
+      </g>
+      <g class="ink" stroke-width="5">
+        <path d="M90 116 C94 122 94 129 92 135"></path>
+        <path d="M110 110 C114 118 114 126 112 133"></path>
+        <path d="M131 115 C134 122 134 128 132 135"></path>
+      </g>
+    </svg></span></span>
+    <span aria-hidden="true"><span class="cap" id="brand-cap">m</span>yData</span>
+  </a>
+  <nav class="nav" aria-label="Sections">
+    <a href="#how">How it works</a>
+    <a href="#apps">Apps</a>
+    <a href="#kiwi">Why a kiwi</a>
+    <a href="#status">Status</a>
+  </nav>
+</header>
+</div>
+<script>
+/* Header intro: the word starts as "MyData", the kiwi walks in from the left, hops up and taps the top of the M with its beak, the M drops to lowercase, then the bird does one small jump and settles. Skipped when the viewer prefers reduced motion; the markup already holds the final state. */
+(function () {
+  var walker = document.getElementById('brand-walker');
+  var bobber = document.getElementById('brand-bobber');
+  var cap = document.getElementById('brand-cap');
+  var brand = document.getElementById('top');
+  if (!walker || !bobber || !cap || !walker.animate) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var running = false;
+
+  function play() {
+    if (running || reduce) return;
+    running = true;
+    cap.textContent = 'M';
+
+    /* The bird is rigged: two legs swing from the hips, the head and beak turn at the neck. Pivots are in the drawing's own units. */
+    var leg1 = document.getElementById('k-leg1');
+    var leg2 = document.getElementById('k-leg2');
+    var head = document.getElementById('k-head');
+    function turn(px, py, deg) {
+      return 'translate(' + px + 'px,' + py + 'px) rotate(' + deg + 'deg) translate(' + (-px) + 'px,' + (-py) + 'px)';
+    }
+    function swing(px, py, list) {
+      return list.map(function (k) {
+        var f = { transform: turn(px, py, k[0]) };
+        if (k[1] !== undefined) f.offset = k[1];
+        if (k[2]) f.easing = k[2];
+        return f;
+      });
+    }
+    var H = [169, 88], L1 = [104, 172], L2 = [132, 170];
+
+    /* walk: 4 full strides of 425ms, legs in opposite phase, body dips once per step, head thrusts forward each step */
+    var walk = walker.animate(
+      [
+        { transform: 'translateX(-170px)', opacity: 0 },
+        { transform: 'translateX(-145px)', opacity: 1, offset: 0.15 },
+        { transform: 'translateX(0)', opacity: 1 }
+      ],
+      { duration: 1700, easing: 'linear', fill: 'backwards' }
+    );
+    var stride = { duration: 425, iterations: 4, easing: 'linear' };
+    leg1.animate(swing(L1[0], L1[1], [[0], [26, 0.25], [-26, 0.75], [0]]), stride);
+    leg2.animate(swing(L2[0], L2[1], [[0], [-26, 0.25], [26, 0.75], [0]]), stride);
+    head.animate(swing(H[0], H[1], [[0], [9, 0.25], [0, 0.5], [9, 0.75], [0]]), stride);
+    bobber.animate(
+      [
+        { transform: 'translateY(0)' },
+        { transform: 'translateY(1.5px)', offset: 0.25 },
+        { transform: 'translateY(-1px)', offset: 0.5 },
+        { transform: 'translateY(1.5px)', offset: 0.75 },
+        { transform: 'translateY(0)' }
+      ],
+      stride
+    );
+
+    walk.finished.then(function () {
+      /* peck: the head rears back at the neck, the body leans in, the beak strikes the top of the M, then everything returns */
+      head.animate(
+        swing(H[0], H[1], [[0, 0, 'ease-out'], [-72, 0.38, 'ease-in'], [-38, 0.55, 'linear'], [-38, 0.66, 'ease-in-out'], [0, 1]]),
+        { duration: 900 }
+      );
+      leg1.animate(swing(L1[0], L1[1], [[0], [-14, 0.5], [-14, 0.66], [0]]), { duration: 900, easing: 'ease-in-out' });
+      leg2.animate(swing(L2[0], L2[1], [[0], [-14, 0.5], [-14, 0.66], [0]]), { duration: 900, easing: 'ease-in-out' });
+      var peck = bobber.animate(
+        [
+          { transform: 'translate(0px, 0px)', easing: 'ease-out' },
+          { transform: 'translate(4px, -1px)', offset: 0.38, easing: 'ease-in' },
+          { transform: 'translate(11px, 0px)', offset: 0.55, easing: 'linear' },
+          { transform: 'translate(11px, 0px)', offset: 0.66, easing: 'ease-in-out' },
+          { transform: 'translate(0px, 0px)' }
+        ],
+        { duration: 900 }
+      );
+      setTimeout(function () {
+        cap.textContent = 'm';
+        cap.animate(
+          [
+            { transform: 'scaleY(1)' },
+            { transform: 'scaleY(0.5)', offset: 0.3 },
+            { transform: 'scaleY(1.12)', offset: 0.7 },
+            { transform: 'scaleY(1)' }
+          ],
+          { duration: 320, easing: 'ease-out' }
+        );
+      }, 495);
+      return peck.finished;
+    }).then(function () {
+      /* jump: crouch, spring up with legs tucked, land with a small squash, settle */
+      var t = { duration: 680 };
+      leg1.animate(swing(L1[0], L1[1], [[0], [0, 0.18], [34, 0.48], [0, 0.78], [0]]), t);
+      leg2.animate(swing(L2[0], L2[1], [[0], [0, 0.18], [-22, 0.48], [0, 0.78], [0]]), t);
+      head.animate(swing(H[0], H[1], [[0], [8, 0.18], [-10, 0.48], [10, 0.8], [0]]), t);
+      return bobber.animate(
+        [
+          { transform: 'translateY(0px) scaleY(1)', easing: 'ease-in' },
+          { transform: 'translateY(2px) scaleY(0.9)', offset: 0.18, easing: 'ease-out' },
+          { transform: 'translateY(-15px) scaleY(1.04)', offset: 0.48, easing: 'ease-in' },
+          { transform: 'translateY(1px) scaleY(0.9)', offset: 0.78, easing: 'ease-out' },
+          { transform: 'translateY(0px) scaleY(1)' }
+        ],
+        t
+      ).finished;
+    }).catch(function () {
+      cap.textContent = 'm';
+    }).then(function () {
+      running = false;
+    });
+  }
+
+  setTimeout(play, 500);
+  brand.addEventListener('click', function () { play(); });
+})();
+</script>
+
+<main>
+  <div class="hero-band"><div class="wrap hero">
+    <div class="hero-copy">
+      <span class="status"><i></i>Concept stage · nothing to download yet</span>
+      <h1>Your photos, mail, and notes, kept at home.</h1>
+      <p class="lede">myData is an open-source personal cloud that runs on a computer you own. One assistant can search everything in it, and none of it is sent to anyone else's servers.</p>
+      <div class="actions">
+        <a class="btn" href="#status">See where the project stands</a>
+        <a href="#how">How it works</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg class="bird" viewBox="30 40 210 180" role="img" aria-label="The myData kiwi bird">
+        <path class="wash" d="M50 136 C46 96 82 72 122 76 C160 80 180 110 172 142 C164 174 122 190 88 182 C66 176 52 160 50 136 Z"></path>
+        <g class="ink" stroke-width="6.5">
+          <path d="M60 128 C58 94 88 76 120 78 C140 80 150 85 158 78 C162 62 184 57 192 73"></path>
+          <path d="M191 78 C205 95 214 118 219 147 C205 127 194 112 180 98"></path>
+          <path d="M180 98 C179 131 160 164 124 172 C92 178 62 160 60 128"></path>
+          <path d="M104 174 C103 186 105 196 104 206 C110 205 116 207 121 206"></path>
+          <path d="M132 171 C133 184 131 196 133 206 C139 204 145 207 150 205"></path>
+        </g>
+        <g class="ink" stroke-width="3.5">
+          <path d="M90 116 C94 122 94 129 92 135"></path>
+          <path d="M110 110 C114 118 114 126 112 133"></path>
+          <path d="M131 115 C134 122 134 128 132 135"></path>
+          <path d="M70 214 C100 211 140 216 176 212"></path>
+        </g>
+        <circle class="dot" cx="179" cy="76" r="3.2"></circle>
+      </svg>
+    </div>
+  </div></div>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">How it works</span>
+        <h2>One box at home holds everything.</h2>
+        <p>Your phone and laptop are windows onto it. They ask the box, and the box answers. The parts below are the plan, and none of them are built yet.</p>
+      </div>
+      <div class="parts">
+        <div class="part">
+          <h3>A home server</h3>
+          <p>A small always-on computer, such as a Mac mini or a Linux box, stores your data and runs the AI model. Each app keeps its own database file there.</p>
+        </div>
+        <div class="part">
+          <h3>Your devices</h3>
+          <p>A web app first, then phone and desktop apps. They reach the server over your home Wi-Fi, or through a private encrypted tunnel when you are away.</p>
+        </div>
+        <div class="part">
+          <h3>One assistant</h3>
+          <p>myAssistant can use every app as a tool: search mail, find a photo, add a reminder. It reads freely, and it asks before it sends or deletes anything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="apps">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">The apps</span>
+        <h2>A family of apps over one store of data.</h2>
+        <p>The first five come first because they hold what people ask an assistant about most. The rest follow one at a time.</p>
+      </div>
+      <ul class="apps">
+        <li><span class="name">myContacts</span><span class="what">Your address book, pulled from the account you already use.</span><span class="tag first">First</span></li>
+        <li><span class="name">myCalendar</span><span class="what">Events and schedules the assistant can read and search.</span><span class="tag first">First</span></li>
+        <li><span class="name">myMail</span><span class="what">A searchable copy of your mail, by keyword and by meaning.</span><span class="tag first">First</span></li>
+        <li><span class="name">myPhotos</span><span class="what">Your library, searchable by place, date, and what is in the picture.</span><span class="tag first">First</span></li>
+        <li><span class="name">myAssistant</span><span class="what">Chat and voice across all of the above, running on a local model.</span><span class="tag first">First</span></li>
+        <li><span class="name">myNotes, myReminders</span><span class="what">Simple records that sync between your devices.</span><span class="tag">Later</span></li>
+        <li><span class="name">myFiles, myDocs</span><span class="what">Documents and scans, stored as ordinary files.</span><span class="tag">Later</span></li>
+        <li><span class="name">myHealth</span><span class="what">Health data synced from your phone to your own server.</span><span class="tag">Later</span></li>
+        <li><span class="name">myHome</span><span class="what">Lights, plugs, and sensors, through Home Assistant.</span><span class="tag">Later</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="kiwi" class="band">
+    <div class="wrap story">
+      <div class="story-copy">
+        <span class="label">Why a kiwi</span>
+        <h2>A bird that never leaves the ground.</h2>
+        <p>Most of our digital lives are kept in the cloud, on computers that belong to someone else. The kiwi cannot fly. It lives in a burrow it digs for itself, keeps to itself, and guards its own patch of ground.</p>
+        <p>That is what myData is meant to be: a home for your data that stays on the ground, on hardware you own.</p>
+      </div>
+      <ul class="traits">
+        <li><b>Cannot fly</b><span>Your data stays out of the cloud</span></li>
+        <li><b>Digs its own burrow</b><span>Runs on your own home server</span></li>
+        <li><b>Shy and nocturnal</b><span>Private by default</span></li>
+        <li><b>Finds food by smell</b><span>Search finds anything you have stored</span></li>
+        <li><b>Guards its territory</b><span>Only your devices are let in</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="limits">
+        <span class="label">What it will not do</span>
+        <h3>The limits, stated up front</h3>
+        <ul>
+          <li>Mail and calendar accounts still live with your provider. myData keeps a searchable copy at home, and the original stays where it is.</li>
+          <li>An iPhone does not let outside apps send iMessages, place calls hands-free, or listen for a custom wake word.</li>
+          <li>A model small enough to run at home makes more mistakes than a large cloud model. That is why sending and deleting always need your confirmation.</li>
+          <li>You run the server, so backups are your job. Encrypted offsite backup is part of the plan.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="status">
+    <div class="wrap">
+      <div class="head">
+        <span class="label">Status</span>
+        <h2>Where the project stands</h2>
+        <p>myData is at the idea stage. There is a plan and a logo, and no code yet. The steps run in this order, and each one has to work before the next begins.</p>
+      </div>
+      <ol class="road">
+        <li><div class="step"><b>Test the idea</b><span>Check whether a local model picks the right tool often enough to trust.</span></div><span class="tag first">Next</span></li>
+        <li><div class="step"><b>Server, contacts, and calendar</b><span>The first two services, behind an API with an access token.</span></div><span class="tag">Planned</span></li>
+        <li><div class="step"><b>myAssistant, read-only</b><span>Chat over real data, with a log of every request.</span></div><span class="tag">Planned</span></li>
+        <li><div class="step"><b>myMail</b><span>Sync, clean, and index mail for search.</span></div><span class="tag">Planned</span></li>
+        <li><div class="step"><b>myPhotos</b><span>Import, thumbnails, and search by place, date, and content.</span></div><span class="tag">Planned</span></li>
+        <li><div class="step"><b>Always-on server, phone apps, home, and voice</b><span>Everything that needs dedicated hardware.</span></div><span class="tag">Later</span></li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<div class="foot-band"><footer class="wrap">
+  <span>myData is a personal, non-commercial open-source project. License and repository to be announced.</span>
+  <span>Not affiliated with MyData Global or any other organization using a similar name.</span>
+</footer></div>
+<script>
+/* Pull to refresh. Works on touch screens when the page is scrolled to the very top:
+   drag down and the kiwi badge follows the finger and turns; release past the trigger point
+   and it spins two full turns, then the page reloads. Release early and it slides back. */
+(function () {
+  var el = document.getElementById('ptr');
+  if (!el) return;
+  var FACTOR = 0.6, MAX = 128, TRIGGER = 92, REST = 86;
+  var startY = null, y = 0, busy = false;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function atTop() {
+    return (window.scrollY || document.documentElement.scrollTop || 0) <= 0;
+  }
+  function place(dist, glide) {
+    el.style.transition = glide ? 'transform 0.25s ease, opacity 0.25s ease' : 'none';
+    el.style.transform = 'translateY(' + dist + 'px) rotate(' + (dist * 3) + 'deg)';
+    el.style.opacity = String(Math.min(1, dist / 36));
+  }
+  function back() {
+    y = 0;
+    place(0, true);
+  }
+  function refresh() {
+    busy = true;
+    place(REST, true);
+    var from = REST * 3;
+    function reload() {
+      try { window.location.reload(); } catch (e) {}
+      /* if the page is still here (some embedded views block reloads), put the badge away */
+      setTimeout(function () { busy = false; back(); }, 1200);
+    }
+    if (reduce || !el.animate) { setTimeout(reload, 200); return; }
+    setTimeout(function () {
+      el.animate(
+        [
+          { transform: 'translateY(' + REST + 'px) rotate(' + from + 'deg)' },
+          { transform: 'translateY(' + REST + 'px) rotate(' + (from + 720) + 'deg)' }
+        ],
+        { duration: 950, easing: 'ease-in-out' }
+      ).finished.then(reload, reload);
+    }, 250);
+  }
+
+  window.addEventListener('touchstart', function (e) {
+    if (busy || e.touches.length !== 1 || !atTop()) { startY = null; return; }
+    startY = e.touches[0].clientY;
+    y = 0;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', function (e) {
+    if (startY === null || busy) return;
+    var dy = e.touches[0].clientY - startY;
+    if (dy <= 0 || !atTop()) {
+      if (y > 0) back();
+      if (!atTop()) startY = null;
+      return;
+    }
+    y = Math.min(MAX, dy * FACTOR);
+    if (e.cancelable) e.preventDefault();
+    place(y, false);
+  }, { passive: false });
+
+  function end() {
+    if (startY === null || busy) return;
+    startY = null;
+    if (y >= TRIGGER) refresh(); else back();
+  }
+  window.addEventListener('touchend', end);
+  window.addEventListener('touchcancel', function () { if (!busy) { startY = null; back(); } });
+
+  /* Trackpad and mouse wheel: scrolling up while already at the top pulls the badge down.
+     The pull only counts when the scroll gesture began at the top, so coasting up the page never triggers it. */
+  var lastWheel = 0, wheelArmed = false, wheelTimer = null;
+  window.addEventListener('wheel', function (e) {
+    if (busy) return;
+    var now = Date.now();
+    if (now - lastWheel > 220) wheelArmed = atTop();
+    lastWheel = now;
+    if (!wheelArmed || !atTop()) { if (y > 0) back(); return; }
+    if (e.deltaY < 0) y = Math.min(MAX, y + (-e.deltaY) * 0.45);
+    else if (y > 0) y = Math.max(0, y - e.deltaY * 0.45);
+    else return;
+    place(y, false);
+    clearTimeout(wheelTimer);
+    wheelTimer = setTimeout(function () {
+      if (busy) return;
+      if (y >= TRIGGER) refresh(); else back();
+    }, 170);
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
